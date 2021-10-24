@@ -2,11 +2,16 @@ package hu.petrik.akasztofa;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
             "K", "L", "M", "N", "O", "Ó", "Ö", "Ő", "P", "Q", "R", "S", "T",
             "U", "Ú", "Ü", "Ű", "V", "W", "X", "Y", "Z"
     };
+
+    private List<String> tippeltBetuk = new ArrayList();
 
     private int hanyadikBetu = 0;
     private String melyikBetu = betuTomb[hanyadikBetu];
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         kitalalSzo.setText(beallitasKitalalSzo);
 
         tippelBetu.setText(melyikBetu);
+        tippelBetu.setTextColor(Color.RED);
 
         gombPlusz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 if (hanyadikBetu > betuTomb.length-1) {
                     hanyadikBetu = 0;
                 }
+                vizsgalSzin();
                 String melyikBetu = betuTomb[hanyadikBetu];
                 tippelBetu.setText(melyikBetu);
             }
@@ -64,10 +73,33 @@ public class MainActivity extends AppCompatActivity {
                 if (hanyadikBetu < 0) {
                     hanyadikBetu = betuTomb.length-1;
                 }
+                vizsgalSzin();
                 String melyikBetu = betuTomb[hanyadikBetu];
                 tippelBetu.setText(melyikBetu);
             }
         });
+
+        gombTippel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tippeltBetuk.add(betuTomb[hanyadikBetu]);
+                tippelBetu.setTextColor(Color.BLACK);
+            }
+        });
+    }
+
+    public void vizsgalSzin() {
+        boolean vanE = false;
+        for (int i = 0; i < tippeltBetuk.size(); i++) {
+            if (tippeltBetuk.get(i) == betuTomb[hanyadikBetu]) {
+                vanE = true;
+            }
+        }
+        if (!vanE) {
+            tippelBetu.setTextColor(Color.RED);
+        } else {
+            tippelBetu.setTextColor(Color.BLACK);
+        }
     }
 
     public void init() {

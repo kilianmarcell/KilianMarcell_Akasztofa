@@ -1,9 +1,12 @@
 package hu.petrik.akasztofa;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] szoTomb = {
             "implementálás", "objektum", "rekurzió", "testnevelés", "számítástechnika",
-            "pendrive", "mérnökinformatikus", "feladatok", "depresszió", "túlóra"
+            "pendrive", "deriválás", "feladatok", "depresszió", "túlóra"
     };
 
     private char[] betuTomb = {
@@ -44,14 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-
-        for (int i = 0; i < kivalasztottSzo.length(); i++) {
-            beallitasKitalalSzo += "_ ";
-        }
-        kitalalSzo.setText(beallitasKitalalSzo);
-
-        tippelBetu.setText(melyikBetu + "");
-        tippelBetu.setTextColor(Color.RED);
+        resetMethod();
 
         gombPlusz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,14 +83,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void vizsgalSzin() {
-        boolean vanE = false;
-        for (int i = 0; i < tippeltBetuk.size(); i++) {
-            if (tippeltBetuk.get(i) == betuTomb[hanyadikBetu]) {
-                vanE = true;
-            }
+    public void resetMethod() {
+        kivalasztottSzo = szoTomb[(int)(Math.random() * szoTomb.length)];
+        tippeltBetuk.clear();
+        beallitasKitalalSzo = "";
+        for (int i = 0; i < kivalasztottSzo.length(); i++) {
+            beallitasKitalalSzo += "_ ";
         }
-        if (!vanE) {
+        kitalalSzo.setText(beallitasKitalalSzo);
+        tippelBetu.setText(melyikBetu + "");
+        tippelBetu.setTextColor(Color.RED);
+    }
+
+    public void vizsgalSzin() {
+        if (!(tippeltBetuk.contains(betuTomb[hanyadikBetu]))) {
             tippelBetu.setTextColor(Color.RED);
         } else {
             tippelBetu.setTextColor(Color.BLACK);
@@ -103,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void vizsgalBetu() {
         StringBuilder kitalalandoSzo = new StringBuilder(beallitasKitalalSzo);
+
         boolean vanE = false;
+
         for (int i = 0; i < kivalasztottSzo.length(); i++) {
             if (Character.toUpperCase(kivalasztottSzo.charAt(i)) == betuTomb[hanyadikBetu]) {
                 kitalalandoSzo.setCharAt(i * 2, betuTomb[hanyadikBetu]);
@@ -112,9 +116,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!vanE) {
             tippekSzamlalo++;
+
             kepValtas(tippekSzamlalo);
         }
         beallitasKitalalSzo = kitalalandoSzo.toString();
+
         kitalalSzo.setText(beallitasKitalalSzo);
 
         //for (int i = 0; i < kivalasztottSzo.length(); i++) {
@@ -130,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void kepValtas(int hanyadikHiba) {
+
         switch (hanyadikHiba) {
             case 1:
                 kepAkasztofa.setImageResource(R.drawable.akasztofa01);
@@ -169,8 +176,36 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 13:
                 kepAkasztofa.setImageResource(R.drawable.akasztofa13);
+                jatekVege();
                 break;
         }
+    }
+
+    public void jatekVege() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Nem sikerült kitalálni!");
+        alert.setMessage("Szeretnél még egyet játszani?");
+        alert.setCancelable(false);
+        alert.setNegativeButton("Nem", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alert.setPositiveButton("Igen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ujJatek();
+            }
+        });
+        alert.create().show();
+    }
+
+    public void ujJatek() {
+        kepAkasztofa.setImageResource(R.drawable.akasztofa00);
+        tippekSzamlalo = 0;
+        hanyadikBetu = 0;
+        resetMethod();
     }
 
     public void tippelBetuBeallitas() {

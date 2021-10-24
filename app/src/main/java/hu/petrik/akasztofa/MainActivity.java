@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
             "pendrive", "mérnökinformatikus", "feladatok", "depresszió", "túlóra"
     };
     private String[] betuTomb = {
-            "a", "á", "b", "c", "d", "e", "é", "f", "g", "h", "i", "í", "j",
-            "k", "l", "m", "n", "o", "ó", "ö", "ő", "p", "q", "r", "s", "t",
-            "u", "ú", "ü", "ű", "v", "w", "x", "y", "z"
+            "A", "Á", "B", "C", "D", "E", "É", "F", "G", "H", "I", "Í", "J",
+            "K", "L", "M", "N", "O", "Ó", "Ö", "Ő", "P", "Q", "R", "S", "T",
+            "U", "Ú", "Ü", "Ű", "V", "W", "X", "Y", "Z"
     };
 
     @Override
@@ -28,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-        int melyikSzam = 0;
 
+        int randomSzo = (int)(Math.random() * szoTomb.length);
+        String kivalasztottSzo = szoTomb[randomSzo];
+        String beallitasKitalalSzo = "";
+        for (int i = 0; i < kivalasztottSzo.length(); i++) {
+            beallitasKitalalSzo += "_ ";
+        }
+        kitalalSzo.setText(beallitasKitalalSzo);
+        int melyikSzam = 0;
     }
 
     public void init() {

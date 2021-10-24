@@ -123,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
         kitalalSzo.setText(beallitasKitalalSzo);
 
+        if (!(beallitasKitalalSzo.contains("_"))) {
+            jatekVege(true);
+        }
+
         //for (int i = 0; i < kivalasztottSzo.length(); i++) {
         //    if (kivalasztottSzo.charAt(i) == Character.toLowerCase(betuTomb[hanyadikBetu])) {
         //        int valtozasHelye = i * 2 - 1;
@@ -176,15 +180,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 13:
                 kepAkasztofa.setImageResource(R.drawable.akasztofa13);
-                jatekVege();
+                jatekVege(false);
                 break;
         }
     }
 
-    public void jatekVege() {
+    public void jatekVege(boolean nyertE) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Nem sikerült kitalálni!");
-        alert.setMessage("Szeretnél még egyet játszani?");
+        if (nyertE) {
+            alert.setTitle("Helyes megfejtés!");
+        } else {
+            alert.setTitle("Nem sikerült kitalálni!");
+        }
+            alert.setMessage("Szeretnél még egyet játszani?");
         alert.setCancelable(false);
         alert.setNegativeButton("Nem", new DialogInterface.OnClickListener() {
             @Override

@@ -24,16 +24,19 @@ public class MainActivity extends AppCompatActivity {
             "pendrive", "mérnökinformatikus", "feladatok", "depresszió", "túlóra"
     };
 
-    private String[] betuTomb = {
-            "A", "Á", "B", "C", "D", "E", "É", "F", "G", "H", "I", "Í", "J",
-            "K", "L", "M", "N", "O", "Ó", "Ö", "Ő", "P", "Q", "R", "S", "T",
-            "U", "Ú", "Ü", "Ű", "V", "W", "X", "Y", "Z"
+    private char[] betuTomb = {
+            'A', 'Á', 'B', 'C', 'D', 'E', 'É', 'F', 'G', 'H', 'I', 'Í', 'J',
+            'K', 'L', 'M', 'N', 'O', 'Ó', 'Ö', 'Ő', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'Ú', 'Ü', 'Ű', 'V', 'W', 'X', 'Y', 'Z'
     };
 
-    private List<String> tippeltBetuk = new ArrayList();
+    private List<Character> tippeltBetuk = new ArrayList<>();
 
+    private int melyikAkasztofaKep = 0;
     private int hanyadikBetu = 0;
-    private String melyikBetu = betuTomb[hanyadikBetu];
+    private char melyikBetu = betuTomb[hanyadikBetu];
+    private String kivalasztottSzo = szoTomb[(int)(Math.random() * szoTomb.length)];
+    private String beallitasKitalalSzo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        int randomSzo = (int)(Math.random() * szoTomb.length);
-        String kivalasztottSzo = szoTomb[randomSzo];
-        String beallitasKitalalSzo = "";
         for (int i = 0; i < kivalasztottSzo.length(); i++) {
             beallitasKitalalSzo += "_ ";
         }
         kitalalSzo.setText(beallitasKitalalSzo);
 
-        tippelBetu.setText(melyikBetu);
+        tippelBetu.setText(melyikBetu + "");
         tippelBetu.setTextColor(Color.RED);
 
         gombPlusz.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     hanyadikBetu = 0;
                 }
                 vizsgalSzin();
-                String melyikBetu = betuTomb[hanyadikBetu];
-                tippelBetu.setText(melyikBetu);
+                tippelBetuBeallitas();
             }
         });
 
@@ -74,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     hanyadikBetu = betuTomb.length-1;
                 }
                 vizsgalSzin();
-                String melyikBetu = betuTomb[hanyadikBetu];
-                tippelBetu.setText(melyikBetu);
+                tippelBetuBeallitas();
             }
         });
 
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tippeltBetuk.add(betuTomb[hanyadikBetu]);
                 tippelBetu.setTextColor(Color.BLACK);
+                vizsgalBetu();
             }
         });
     }
@@ -100,6 +99,33 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tippelBetu.setTextColor(Color.BLACK);
         }
+    }
+
+    public void vizsgalBetu() {
+        StringBuilder kitalalandoSzo = new StringBuilder(beallitasKitalalSzo);
+        for (int i = 0; i < kivalasztottSzo.length(); i++) {
+            if (Character.toUpperCase(kivalasztottSzo.charAt(i)) == betuTomb[hanyadikBetu]) {
+                kitalalandoSzo.setCharAt(i * 2, betuTomb[hanyadikBetu]);
+            }
+        }
+        beallitasKitalalSzo = kitalalandoSzo.toString();
+        kitalalSzo.setText(beallitasKitalalSzo);
+
+        //for (int i = 0; i < kivalasztottSzo.length(); i++) {
+        //    if (kivalasztottSzo.charAt(i) == Character.toLowerCase(betuTomb[hanyadikBetu])) {
+        //        int valtozasHelye = i * 2 - 1;
+        //        String elotte = kivalasztottSzo.substring(0, valtozasHelye - 1);
+        //        String jelen = kivalasztottSzo.substring(valtozasHelye, valtozasHelye + 1);
+        //        String utana = kivalasztottSzo.substring(valtozasHelye + 1, kivalasztottSzo.length());
+        //
+        //        beallitasKitalalSzo = elotte + Character.toLowerCase(betuTomb[hanyadikBetu]) + utana;
+        //    }
+        //}
+    }
+
+    public void tippelBetuBeallitas() {
+        char melyikBetu = betuTomb[hanyadikBetu];
+        tippelBetu.setText(melyikBetu + "");
     }
 
     public void init() {

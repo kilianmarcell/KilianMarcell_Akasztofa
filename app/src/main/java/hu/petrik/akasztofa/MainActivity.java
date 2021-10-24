@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Character> tippeltBetuk = new ArrayList<>();
 
-    private int melyikAkasztofaKep = 0;
+    private int tippekSzamlalo = 0;
     private int hanyadikBetu = 0;
     private char melyikBetu = betuTomb[hanyadikBetu];
     private String kivalasztottSzo = szoTomb[(int)(Math.random() * szoTomb.length)];
@@ -103,10 +103,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void vizsgalBetu() {
         StringBuilder kitalalandoSzo = new StringBuilder(beallitasKitalalSzo);
+        boolean vanE = false;
         for (int i = 0; i < kivalasztottSzo.length(); i++) {
             if (Character.toUpperCase(kivalasztottSzo.charAt(i)) == betuTomb[hanyadikBetu]) {
                 kitalalandoSzo.setCharAt(i * 2, betuTomb[hanyadikBetu]);
+                vanE = true;
             }
+        }
+        if (!vanE) {
+            tippekSzamlalo++;
+            kepValtas(tippekSzamlalo);
         }
         beallitasKitalalSzo = kitalalandoSzo.toString();
         kitalalSzo.setText(beallitasKitalalSzo);
@@ -121,6 +127,50 @@ public class MainActivity extends AppCompatActivity {
         //        beallitasKitalalSzo = elotte + Character.toLowerCase(betuTomb[hanyadikBetu]) + utana;
         //    }
         //}
+    }
+
+    public void kepValtas(int hanyadikHiba) {
+        switch (hanyadikHiba) {
+            case 1:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa01);
+                break;
+            case 2:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa02);
+                break;
+            case 3:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa03);
+                break;
+            case 4:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa04);
+                break;
+            case 5:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa05);
+                break;
+            case 6:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa06);
+                break;
+            case 7:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa07);
+                break;
+            case 8:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa08);
+                break;
+            case 9:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa09);
+                break;
+            case 10:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa10);
+                break;
+            case 11:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa11);
+                break;
+            case 12:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa12);
+                break;
+            case 13:
+                kepAkasztofa.setImageResource(R.drawable.akasztofa13);
+                break;
+        }
     }
 
     public void tippelBetuBeallitas() {
